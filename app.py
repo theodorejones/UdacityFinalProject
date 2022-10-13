@@ -11,17 +11,12 @@ def create_app(test_config=None):
     setup_db(app)
     CORS(app)
 
-    # actor = Actor(name='ak', age=156, gender='sasaa')
-    # movie = Movie(title='titanic2')
-    # actor.actor_in_movies.append(movie)
-    # db.session.add(actor)
-    # db.session.commit()
     @app.route('/')
     def index():
-        return jsonify({'message': 'Udacity Capestone Project'}
-                       )
+        return jsonify({'message': 'Udacity Capstone Project'})
+
     #########################
-    # Get Actors
+    # Actors
     #########################
     @app.route('/actors', methods=['GET'])
     @requires_auth('get:actors')
@@ -35,24 +30,6 @@ def create_app(test_config=None):
         except Exception:
             abort(404)
 
-    ##########################
-    # Get Movies
-    ##########################
-    @app.route('/movies', methods=['GET'])
-    @requires_auth('get:movies')
-    def get_movies(token):
-        try:
-            movies_details = list(map(Movie.format, Movie.query.all()))
-            return jsonify({"success": True,
-                            "movies": movies_details,
-                            "total_movies": len(Movie.query.all())
-                            }), 200
-        except Exception:
-            abort(404)
-
-    ############################
-    # Delete Actor
-    ############################
     @app.route('/actors/<int:actor_id>', methods=['DELETE'])
     @requires_auth('delete:actors')
     def delete_actor(token, actor_id):
@@ -71,31 +48,7 @@ def create_app(test_config=None):
             }), 200
         except Exception:
             abort(422)
-    #########################
-    # Delete movie
-    #########################
 
-    @app.route('/movies/<int:movie_id>', methods=['DELETE'])
-    @requires_auth('delete:movies')
-    def delete_movie(token, movie_id):
-        try:
-            movie = Movie.query.filter(Movie.id == movie_id).one_or_none()
-            if movie is None:
-                abort(404)
-
-            movie.delete()
-            return jsonify({
-                "success": True,
-                "message": "this movie id deleted",
-                "delete": movie_id,
-                "total_movies": len(Movie.query.all())
-            }), 200
-        except Exception:
-            abort(422)
-
-    ########################
-    # Post actor
-    ########################
     @app.route('/actors', methods=['POST'])
     @requires_auth('post:actors')
     def create_actor(token):
@@ -116,9 +69,6 @@ def create_app(test_config=None):
             }), 200
         except Exception:
             abort(422)
-    #########################
-    # Post actor
-    ########################
 
     @app.route('/movies', methods=['POST'])
     @requires_auth('post:movies')
@@ -138,37 +88,6 @@ def create_app(test_config=None):
         except Exception:
             abort(422)
 
-    ##########################
-    # PATCH actor
-    ##########################
-    # @app.route('/actors/<int:actor_id>', methods=['PATCH'])
-    # @requires_auth('patch:actors')
-    # def edit_actor(token, actor_id):
-    #     body = request.get_json()
-    #     new_name = body.get('name', None)
-    #     new_age = body.get('age', None)
-    #     new_gender = body.get('gender', None)
-
-    #     try:
-    #         actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
-    #         if actor is None:
-    #             abort(404)
-    #         if any(arg is None for arg in [new_name, new_age, new_gender]
-    # )or'' in[new_name, new_age, new_gender]:
-    #             abort(400)
-
-    #         actor.name = new_name
-    #         actor.age = new_age
-    #         actor.gender = new_gender
-
-    #         actor.update()
-    #         return jsonify({
-    #             "success": True,
-    #             "actors": [Actor.query.get(actor_id).format()]
-    #         })
-
-    #     except Exception:
-    #         abort(401)
     @app.route('/actors/<int:id>', methods=['PATCH'])
     @requires_auth('patch:actors')
     def patch_actor(jwt, id):
@@ -204,8 +123,37 @@ def create_app(test_config=None):
             abort(500)
 
     ##########################
-    # PATCH movie
+    # Movies
     ##########################
+    @app.route('/movies', methods=['GET'])
+    @requires_auth('get:movies')
+    def get_movies(token):
+        try:
+            movies_details = list(map(Movie.format, Movie.query.all()))
+            return jsonify({"success": True,
+                            "movies": movies_details,
+                            "total_movies": len(Movie.query.all())
+                            }), 200
+        except Exception:
+            abort(404)
+
+    @app.route('/movies/<int:movie_id>', methods=['DELETE'])
+    @requires_auth('delete:movies')
+    def delete_movie(token, movie_id):
+        try:
+            movie = Movie.query.filter(Movie.id == movie_id).one_or_none()
+            if movie is None:
+                abort(404)
+
+            movie.delete()
+            return jsonify({
+                "success": True,
+                "message": "this movie id deleted",
+                "delete": movie_id,
+                "total_movies": len(Movie.query.all())
+            }), 200
+        except Exception:
+            abort(422)
 
     @app.route('/movies/<int:movie_id>', methods=['PATCH'])
     @requires_auth('patch:movies')
