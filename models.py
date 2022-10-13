@@ -23,31 +23,12 @@ def setup_db(app, database_path=database_path):
 
     migrate = Migrate(app, db)
 
-
-###########################
-# ACTORS IN MOVIES RELATION Many to Many MODEL #
-##########################
-# actors_movies = db.Table('actors_movies',
-#                          db.Column('actor_id', db.Integer,
-#                                    db.ForeignKey('actors.id')),
-#                          db.Column('movie_id', db.Integer,
-#                                    db.ForeignKey('movies.id'))
-#                          )
-
-########################
-# ACTOR MODEL
-#################
-
-
-class Actor(db.Model):
-    __tablename__ = 'actors'
+class Renter(db.Model):
+    __tablename__ = 'renters'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), nullable=False)
     age = db.Column(db.Integer, nullable=False)
     gender = db.Column(db.String(), nullable=False)
-    # actor_in_movies = db.relationship(
-    #     'Movie', secondary=actors_movies, backref=db.backref('movies_actors',
-    #                                                          lazy='dynamic'))
 
     def __init__(self, name, age, gender):
         self.name = name
@@ -75,10 +56,10 @@ class Actor(db.Model):
 
 
 #################
-# MOVIE MODEL
+# RENTAL MODEL
 ####################
-class Movie(db.Model):
-    __tablename__ = 'movies'
+class Rental(db.Model):
+    __tablename__ = 'rentals'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(), nullable=False)
     release_date = db.Column(db.DateTime(), default=datetime.utcnow)
