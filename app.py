@@ -25,7 +25,7 @@ def create_app(test_config=None):
             renters_details = list(map(Renter.format, Renter.query.all()))
             return jsonify({"success": True,
                             "renters": renters_details,
-                            "total_renters": len(renter.query.all()),
+                            "total_renters": len(Renter.query.all()),
                             }), 200
         except Exception:
             abort(404)
