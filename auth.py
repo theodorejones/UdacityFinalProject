@@ -4,9 +4,9 @@ from functools import wraps
 from jose import jwt
 from urllib.request import urlopen
 
-AUTH0_DOMAIN = 'manage.auth0.com'
+AUTH0_DOMAIN = 'dev-sbt6d75y.us.auth0.com'
 ALGORITHMS = ['RS256']
-API_AUDIENCE = 'udacityfinalapi'
+API_AUDIENCE = 'https://localhost:5000'
 
 class AuthError(Exception):
     def __init__(self, error, status_code):
