@@ -6,7 +6,7 @@ from app import create_app
 from models import setup_db
 
 
-class CastingAgencyTestCase(unittest.TestCase):
+class ApartmentRentalTestCase(unittest.TestCase):
     def setUp(self):
         """Define test variables and initialize app."""
         self.app = create_app()
@@ -31,7 +31,7 @@ class CastingAgencyTestCase(unittest.TestCase):
             'gender': 'male'
         }
         self.new_rental = {
-            'title': 'Avengers4'
+            'address': 'ISS'
         }
 
         # binds the app to the current context
@@ -146,7 +146,7 @@ class CastingAgencyTestCase(unittest.TestCase):
         self.client().post('/rentals', json=self.new_rental,
                            headers=self.producer_headers)
         res = self.client().patch(
-            '/rentals/5', json={'title': 'Avenger2'},
+            '/rentals/5', json={'address': 'The Moon'},
             headers={"Authorization": "Bearer {}".
                      format(self.producer_headers)})
         data = json.loads(res.data)
@@ -157,7 +157,7 @@ class CastingAgencyTestCase(unittest.TestCase):
 
     def test_404_update_rental(self):
         res = self.client().patch(
-            '/rentals/100', json={'title': 'X-Men'},
+            '/rentals/100', json={'address': 'Antarctic'},
             headers={"Authorization": "Bearer {}".
                      format(self.producer_headers)})
         data = json.loads(res.data)
