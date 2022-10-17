@@ -1,7 +1,7 @@
 from flask import Flask, request, abort, jsonify
 from flask_cors import CORS
 from models import setup_db, Renter, Rental
-#from auth import AuthError, requires_auth
+from auth import AuthError, requires_auth
 
 
 
@@ -19,7 +19,7 @@ def create_app(test_config=None):
     # Renters
     #########################
     @app.route('/renters', methods=['GET'])
-    #@requires_auth('get:renters')
+    @requires_auth('get:renters')
     def get_renters(token):
         try:
             renters_details = list(map(Renter.format, Renter.query.all()))
@@ -31,7 +31,7 @@ def create_app(test_config=None):
             abort(404)
 
     @app.route('/renters/<int:renter_id>', methods=['DELETE'])
-    #@requires_auth('delete:renters')
+    @requires_auth('delete:renters')
     def delete_renter(token, renter_id):
         try:
 
@@ -50,7 +50,7 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route('/renters', methods=['POST'])
-    #@requires_auth('post:renters')
+    @requires_auth('post:renters')
     def create_renter(token):
         body = request.get_json()
         new_name = body.get('name', None)
@@ -71,7 +71,7 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route('/rentals', methods=['POST'])
-    #@requires_auth('post:rentals')
+    @requires_auth('post:rentals')
     def create_rental(token):
         body = request.get_json()
         new_title = body.get('title', None)
@@ -89,7 +89,7 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route('/renters/<int:id>', methods=['PATCH'])
-    #@requires_auth('patch:renters')
+    @requires_auth('patch:renters')
     def patch_renter(jwt, id):
         renter = Renter.query.filter(Renter.id == id).one_or_none()
         print('Renter ', renter)
@@ -126,7 +126,7 @@ def create_app(test_config=None):
     # Rentals
     ##########################
     @app.route('/rentals', methods=['GET'])
-    #@requires_auth('get:rentals')
+    @requires_auth('get:rentals')
     def get_rentals(token):
         try:
             rentals_details = list(map(Rental.format, Rental.query.all()))
@@ -138,7 +138,7 @@ def create_app(test_config=None):
             abort(404)
 
     @app.route('/rentals/<int:rental_id>', methods=['DELETE'])
-    #@requires_auth('delete:rentals')
+    @requires_auth('delete:rentals')
     def delete_rental(token, rental_id):
         try:
             rental = Rental.query.filter(Rental.id == rental_id).one_or_none()
@@ -156,7 +156,7 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route('/rentals/<int:rental_id>', methods=['PATCH'])
-    #@requires_auth('patch:rentals')
+    @requires_auth('patch:rentals')
     def edit_rental(token, rental_id):
         body = request.get_json()
         new_title = body.get('title', None)
@@ -208,7 +208,7 @@ def create_app(test_config=None):
             "message": "Bad request"
         }), 400
 
-    '''@app.errorhandler(401)
+    @app.errorhandler(401)
     def Unauthorized_error(error):
         return jsonify({
             "success": False,
@@ -220,7 +220,7 @@ def create_app(test_config=None):
     def handle_auth_error(ex):
         response = jsonify(ex.error)
         response.status_code = ex.status_code
-        return response'''
+        return response
 
     return app
 
