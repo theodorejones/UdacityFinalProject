@@ -229,5 +229,4 @@ app = create_app()
 
 
 if __name__ == '__main__':
-    print('App set to run')
     app.run()
