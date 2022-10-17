@@ -1,39 +1,51 @@
 import os
+import json
+from sqlalchemy import Column, Integer, String, create_engine, Date
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
-from flask_migrate import Migrate
 
-database_path=os.environ.get('DATABASE_URL')
+
+'''
+Variable to execute app locally
+    DATABASE_PATH='postgres://postgres:12345678@localhost:5432/castagency'
+'''
+
+
+DATABASE_PATH = os.environ['DATABASE_URL']
+
 
 db = SQLAlchemy()
 
-'''
-setup_db(app)
-...binds a flask application and a SQLAlchemy service
 
 '''
+setup_db(app) binds a flask application and a SQLAlchemy service
+'''
 
 
-def setup_db(app, database_path=database_path):
-    app.config["SQLALCHEMY_DATABASE_URI"] = database_path
+def setup_db(app, database_path=DATABASE_PATH):
+    app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_PATH
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)
     db.create_all()
 
-    migrate = Migrate(app, db)
 
-class Renter(db.Model):
-    __tablename__ = 'renters'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(), nullable=False)
-    age = db.Column(db.Integer, nullable=False)
-    gender = db.Column(db.String(), nullable=False)
+'''
+Actors Table & Model
+'''
 
-    def __init__(self, name, age, gender):
+
+class Actors(db.Model):
+    __tablename__ = 'actors'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    gender = Column(String)
+    age = Column(Integer)
+
+    def __init__(self, name, gender, age):
         self.name = name
-        self.age = age
         self.gender = gender
+        self.age = age
 
     def insert(self):
         db.session.add(self)
@@ -49,23 +61,27 @@ class Renter(db.Model):
     def format(self):
         return {
             'id': self.id,
-            'name': self.name,
-            'age': self.age,
+            'name' : self.name,
             'gender': self.gender,
-        }
+            'age': self.age
+            }
 
 
-#################
-# RENTAL MODEL
-####################
-class Rental(db.Model):
-    __tablename__ = 'rentals'
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(), nullable=False)
-    release_date = db.Column(db.DateTime(), default=datetime.utcnow)
+'''
+Movies Table & Model
+'''
 
-    def __init__(self, title):
+
+class Movies(db.Model):
+    __tablename__ = 'movies'
+
+    id = Column(Integer, primary_key=True)
+    title = Column(String)
+    release_date = Column(Date)
+
+    def __init__(self, title, release_date):
         self.title = title
+        self.release_date = release_date
 
     def insert(self):
         db.session.add(self)
@@ -81,6 +97,6 @@ class Rental(db.Model):
     def format(self):
         return {
             'id': self.id,
-            'title': self.title,
-            'release_date': self.release_date,
-        }
+            'title' : self.title,
+            'release_date': self.release_date
+            }
