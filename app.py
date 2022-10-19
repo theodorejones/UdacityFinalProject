@@ -4,7 +4,7 @@ from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from models import setup_db, Actors, Movies
-#from auth import AuthError, requires_auth
+from auth import AuthError, requires_auth
 
 
 RECS_PER_PAGE = 12
@@ -43,10 +43,6 @@ def create_app(test_config=None):
         page_recs = recs_format[start:end]
         return page_recs
 
-    '''
-    Sample Endpoint: To test if the app is up and running
-    '''
-
     @app.route('/', methods=['GET'])
     def get_init():
         return jsonify({
@@ -54,17 +50,9 @@ def create_app(test_config=None):
             'SampleTest': 'Hello World'
         })
 
-    '''
-    Implemented endpoint GET /actors
-        - it will GET all actors with their description
-        - it will require the 'get:actors' permission
-        - returns status code 200 and json {"success": True,
-            "actors": actors} where actors is the list of actors
-            or appropriate status code indicating reason for failure
-    '''
-
     @app.route('/actors', methods=['GET'])
-    #@requires_auth(permission='get:actors')
+    #renter
+    @requires_auth(permission='get:actors')
     def get_actors(payload):
         try:
             selections = Actors.query.order_by(Actors.id).all()
@@ -79,7 +67,8 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route('/actors', methods=['POST'])
-    #@requires_auth(permission='post:actors')
+    #renter
+    @requires_auth(permission='post:actors')
     def post_actors(payload):
         add_actor = request.get_json()
         actor_name = add_actor.get('name')
@@ -110,7 +99,8 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route('/actors/<int:id>', methods=['PATCH'])
-    #@requires_auth(permission='patch:actors')
+    #renter
+    @requires_auth(permission='patch:actors')
     def patch_actors(payload, id):
         actor = Actors.query.filter(Actors.id == id).first()
         if not actor:
@@ -142,7 +132,8 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route('/actors/<int:id>', methods=['DELETE'])
-    #@requires_auth(permission='delete:actors')
+    #renter
+    @requires_auth(permission='delete:actors')
     def delete_actors(payload, id):
         actor = Actors.query.filter(Actors.id == id).first()
         if not actor:
@@ -158,7 +149,8 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route('/movies', methods=['GET'])
-    #@requires_auth(permission='get:movies')
+    #rental
+    @requires_auth(permission='get:movies')
     def get_movies(payload):
         try:
             selections = Movies.query.order_by(Movies.id).all()
@@ -173,7 +165,8 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route('/movies', methods=['POST'])
-    #@requires_auth(permission='post:movies')
+    #rental
+    @requires_auth(permission='post:movies')
     def post_movies(payload):
         add_movie = request.get_json()
         movie_title = add_movie.get('title')
@@ -199,7 +192,8 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route('/movies/<int:id>', methods=['PATCH'])
-    #@requires_auth(permission='patch:movies')
+    #rental
+    @requires_auth(permission='patch:movies')
     def patch_movies(payload, id):
         movie = Movies.query.filter(Movies.id == id).first()
 
@@ -229,7 +223,8 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route('/movies/<int:id>', methods=['DELETE'])
-    #@requires_auth(permission='delete:movies')
+    #rental
+    @requires_auth(permission='delete:movies')
     def delete_movies(payload, id):
         movie = Movies.query.filter(Movies.id == id).first()
 
@@ -301,13 +296,13 @@ def create_app(test_config=None):
             "message": "Internal Server Error"
         }), 500
 
-    '''@app.errorhandler(AuthError)
+    @app.errorhandler(AuthError)
     def auth_error(e):
         return jsonify({
             "success": False,
             "error": e.status_code,
             "message": e.error
-        }), e.status_code'''
+        }), e.status_code
 
     return app
 
