@@ -4,7 +4,7 @@ from flask import Flask, request, abort, jsonify
 #from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from models import setup_db, Actors, Movies
-from auth import AuthError, requires_auth
+#from auth import AuthError, requires_auth
 
 
 RECS_PER_PAGE = 12
@@ -64,7 +64,7 @@ def create_app(test_config=None):
     '''
 
     @app.route('/actors', methods=['GET'])
-    @requires_auth(permission='get:actors')
+    #@requires_auth(permission='get:actors')
     def get_actors(payload):
         try:
             selections = Actors.query.order_by(Actors.id).all()
@@ -78,18 +78,8 @@ def create_app(test_config=None):
         except Exception:
             abort(422)
 
-    '''
-    Implemented endpoint POST /actors
-        - it will create a new row in the Actors table
-        - it will require the 'post:actors' permission
-        - returns status code 200 and json {"success": True,
-            "actors": actor} where actor is an array containing only 
-            the newly created actor
-            or appropriate status code indicating reason for failure
-    '''
-
     @app.route('/actors', methods=['POST'])
-    @requires_auth(permission='post:actors')
+    #@requires_auth(permission='post:actors')
     def post_actors(payload):
         add_actor = request.get_json()
         actor_name = add_actor.get('name')
@@ -119,20 +109,8 @@ def create_app(test_config=None):
         except Exception:
             abort(422)
 
-    '''
-    Implemented endpoint PATCH /actors/<id>
-        - where <id> is the existing actors id
-        - it will respond with a 404 error if <id> is not found
-        - it will update the corresponding row for <id>
-        - it will require the 'patch:actors' permission
-        - returns status code 200 and json {"success": True,
-            "actors": actor} where actors is an array containing only
-            the updated actor or appropriate status code indicating
-            reason for failure
-    '''
-
     @app.route('/actors/<int:id>', methods=['PATCH'])
-    @requires_auth(permission='patch:actors')
+    #@requires_auth(permission='patch:actors')
     def patch_actors(payload, id):
         actor = Actors.query.filter(Actors.id == id).first()
         if not actor:
@@ -163,19 +141,8 @@ def create_app(test_config=None):
         except Exception:
             abort(422)
 
-    '''
-    Implemented endpoint DELETE /actors/<id>
-        - where <id> is the existing actors id
-        - it will respond with a 404 error if <id> is not found
-        - it will delete the corresponding row for <id>
-        - it will require the 'delete:actors' permission
-        - returns status code 200 and json {"success": True,
-            "delete": id} where id is the id of the deleted record
-            or appropriate status code indicating reason for failure
-    '''
-
     @app.route('/actors/<int:id>', methods=['DELETE'])
-    @requires_auth(permission='delete:actors')
+    #@requires_auth(permission='delete:actors')
     def delete_actors(payload, id):
         actor = Actors.query.filter(Actors.id == id).first()
         if not actor:
@@ -190,17 +157,8 @@ def create_app(test_config=None):
         except Exception:
             abort(422)
 
-    '''
-    Implemented endpoint GET /movies
-        - it will GET all movies with their release date
-        - it will require the 'get:movies' permission
-        - returns status code 200 and json {"success": True,
-            "movies": movies} where movies is the list of movies
-            or appropriate status code indicating reason for failure
-    '''
-
     @app.route('/movies', methods=['GET'])
-    @requires_auth(permission='get:movies')
+    #@requires_auth(permission='get:movies')
     def get_movies(payload):
         try:
             selections = Movies.query.order_by(Movies.id).all()
@@ -214,18 +172,8 @@ def create_app(test_config=None):
         except Exception:
             abort(422)
 
-    '''
-    Implemented endpoint POST /movies
-        - it will create a new row in the Movies table
-        - it will require the 'post:movies' permission
-        - returns status code 200 and json {"success": True,
-            "movies": movies} where movie is an array containing only 
-            the newly created movie
-            or appropriate status code indicating reason for failure
-    '''
-
     @app.route('/movies', methods=['POST'])
-    @requires_auth(permission='post:movies')
+    #@requires_auth(permission='post:movies')
     def post_movies(payload):
         add_movie = request.get_json()
         movie_title = add_movie.get('title')
@@ -250,20 +198,8 @@ def create_app(test_config=None):
         except Exception:
             abort(422)
 
-    '''
-    Implemented endpoint PATCH /movies/<id>
-        - where <id> is the existing movies id
-        - it will respond with a 404 error if <id> is not found
-        - it will update the corresponding row for <id>
-        - it will require the 'patch:movies' permission
-        - returns status code 200 and json {"success": True,
-            "movies": movies} where actors is an array containing only
-            the updated actor or appropriate status code indicating
-            reason for failure
-    '''
-
     @app.route('/movies/<int:id>', methods=['PATCH'])
-    @requires_auth(permission='patch:movies')
+    #@requires_auth(permission='patch:movies')
     def patch_movies(payload, id):
         movie = Movies.query.filter(Movies.id == id).first()
 
@@ -292,19 +228,8 @@ def create_app(test_config=None):
         except Exception:
             abort(422)
 
-    '''
-    Implemented endpoint DELETE /movies/<id>
-        - where <id> is the existing movies id
-        - it will respond with a 404 error if <id> is not found
-        - it will delete the corresponding row for <id>
-        - it will require the 'delete:movies' permission
-        - returns status code 200 and json {"success": True,
-            "delete": id} where id is the id of the deleted record
-            or appropriate status code indicating reason for failure
-    '''
-
     @app.route('/movies/<int:id>', methods=['DELETE'])
-    @requires_auth(permission='delete:movies')
+    #@requires_auth(permission='delete:movies')
     def delete_movies(payload, id):
         movie = Movies.query.filter(Movies.id == id).first()
 
@@ -319,11 +244,6 @@ def create_app(test_config=None):
 
         except Exception:
             abort(422)
-
-    '''
-    Error handlers for possible errors including 400, 401, 403,
-    404, 405, 422 and 500.
-    '''
 
     @app.errorhandler(400)
     def badRequest(error):
@@ -381,13 +301,13 @@ def create_app(test_config=None):
             "message": "Internal Server Error"
         }), 500
 
-    @app.errorhandler(AuthError)
+    '''@app.errorhandler(AuthError)
     def auth_error(e):
         return jsonify({
             "success": False,
             "error": e.status_code,
             "message": e.error
-        }), e.status_code
+        }), e.status_code'''
 
     return app
 
