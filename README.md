@@ -6,6 +6,8 @@ So, I decided to implement The Casting Agency model a company that is responsibl
 
 ## Getting Started
 
+https://still-butterfly-7094.us.auth0.com/authorize?audience=udacityfinal&response_type=token&client_id=MAber3rpaDvIGkAtTP8pQVd5ttmR0xOs&redirect_uri=http://localhost:8080
+
 ### Installing Dependencies
 
 #### Python 3.7

@@ -8,7 +8,7 @@ from urllib.request import urlopen
 '''
 AUTH0_DOMAIN = 'still-butterfly-7094.us.auth0.com'
 ALGORITHMS = ['RS256']
-API_AUDIENCE = 'https://udacityfinal/'
+API_AUDIENCE = 'udacityfinal'
 '''
 
 

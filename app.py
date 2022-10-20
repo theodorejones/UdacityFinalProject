@@ -42,15 +42,15 @@ def create_app(test_config=None):
         recs_format = [record.format() for record in selection]
         page_recs = recs_format[start:end]
         return page_recs
-        
+
     #auxiliary endpoint to get token
     @app.route('/authorization/url', methods=['GET'])
     def generate_auth_url():
-        url = f'https://{AUTH0_DOMAIN}/authorize' \
-        f'?audience={API_AUDIENCE}' \
+        url = f'https://still-butterfly-7094.us.auth0.com/authorize' \
+        f'?audience=udacityfinal' \
         f'&response_type=token&client_id=' \
-        f'{AUTH0_CLIENT_ID}&redirect_uri=' \
-        f'{AUTH0_CALLBACK_URL}'
+        f'MAber3rpaDvIGkAtTP8pQVd5ttmR0xOs&redirect_uri=' \
+        f'https://localhost:8080/login-results'
     return jsonify({'url': url})
 
     @app.route('/', methods=['GET'])
