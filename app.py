@@ -44,14 +44,14 @@ def create_app(test_config=None):
         return page_recs
 
     #auxiliary endpoint to get token
-    @app.route('/authorization/url', methods=['GET'])
+    '''@app.route('/authorization/url', methods=['GET'])
     def generate_auth_url():
         url = f'https://still-butterfly-7094.us.auth0.com/authorize' \
         f'?audience=udacityfinal' \
         f'&response_type=token&client_id=' \
         f'MAber3rpaDvIGkAtTP8pQVd5ttmR0xOs&redirect_uri=' \
         f'https://localhost:8080/login-results'
-    return jsonify({'url': url})
+    return jsonify({'url': url})'''
 
     @app.route('/', methods=['GET'])
     def get_init():
