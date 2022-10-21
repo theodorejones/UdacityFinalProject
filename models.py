@@ -33,7 +33,7 @@ def setup_db(app, database_path=DATABASE_PATH):
 Actors Table & Model
 '''
 
-
+#Renter
 class Actors(db.Model):
     __tablename__ = 'actors'
 
@@ -71,7 +71,7 @@ class Actors(db.Model):
 Movies Table & Model
 '''
 
-
+#Rental
 class Movies(db.Model):
     __tablename__ = 'movies'
 

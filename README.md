@@ -72,12 +72,12 @@ Json Web Tokens: You can find **JWTs** for each role in the `setup.sh` file to r
 
 **Roles**: All 3 roles have been defined in Auth0 and following permissions as shown for each role below are also defined in Auth0.
 
-- **Casting Assistant** \* get:actors and get:movies
-- **Casting Director**
-  _ All permissions a Casting Assistant has and
+- **Landlord** \* get:actors and get:movies
+- **Tenant**
+  _ All permissions a Landlord has and
   _ post:actors and delete:actors \* patch:actors and patch:movies
-- **Executive Producer**
-  _ All permissions a Casting Director has and
+- **Roommate**
+  _ All permissions a Tenant has and
   _ post:movies and delete:movies
 
 ## Deployment Details:
