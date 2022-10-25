@@ -4,14 +4,8 @@ from sqlalchemy import Column, Integer, String, create_engine, Date
 from flask_sqlalchemy import SQLAlchemy
 
 
-'''
-Variable to execute app locally
-    DATABASE_PATH='postgres://postgres:12345678@localhost:5432/castagency'
-'''
-
 
 DATABASE_PATH = os.environ['DATABASE_URL']
-#DATABSE_PATH = 'postgres://ulxxdhwkddjwqy:85e70942145391f2ffdb063db6bcc4e425659cdef7682654893e88d2a2c945c2@ec2-18-209-78-11.compute-1.amazonaws.com:5432/d3u8jvplibk40e'
 
 
 db = SQLAlchemy()

@@ -12,7 +12,7 @@ class CastingAgencyTestCase(unittest.TestCase):
 
     def setUp(self):
 
-        DATABASE_URL = 'postgres://ulxxdhwkddjwqy:85e70942145391f2ffdb063db6bcc4e425659cdef7682654893e88d2a2c945c2@ec2-18-209-78-11.compute-1.amazonaws.com:5432/d3u8jvplibk40e'
+        DATABASE_URL = 'postgresql://ulxxdhwkddjwqy:85e70942145391f2ffdb063db6bcc4e425659cdef7682654893e88d2a2c945c2@ec2-18-209-78-11.compute-1.amazonaws.com:5432/d3u8jvplibk40e'
         #Landlord
         ASSISTANT_TOKEN='eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImpYTDlESW1zYmRyWmlmQWtCNms1MyJ9.eyJpc3MiOiJodHRwczovL3N0aWxsLWJ1dHRlcmZseS03MDk0LnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw2MzUwMTI4YTlhZTk1ZDc0YTM3NGQ0ZTQiLCJhdWQiOiJ1ZGFjaXR5ZmluYWwiLCJpYXQiOjE2NjYzNTgyNjYsImV4cCI6MTY2NjM2NTQ2NiwiYXpwIjoiTUFiZXIzcnBhRHZJR2tBdFRQOHBRVmQ1dHRtUjB4T3MiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbXX0.vAdB2VGYFZRKhChyeWYJ5fGqC5BUgcQTjd2g54F15bk-m-Nl0Vd7Y-zXFfmry-RVJd4mj1qIue0h5IxwRcWgEAnguRZ_20vUDJmCVZmeT8XzsourYr4zVGH5h8Rq9xiEzyqKjudIDQIUGnU4cUTfsRx9sto_MujltR7_LtEBwGJPCTQRrpYb9MtVrzyE2PJARAuM_gukrtLYExAW3qP6NmRvn0mlMxnANgXBlPf88-UbomGEFNJ8BZjSD8frUieo06MO1cZzjuHcUMqupTQfeh8H4Aj-fx3Dx3YgRG0oxIHOj4ekCfPx-zssW83d0uoxVP-r4UdwT3Z0uPEFSGTtdg'
         #Tenant
