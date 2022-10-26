@@ -14,6 +14,7 @@ def create_app(test_config=None):
     # create and configure the app
 
     app = Flask(__name__)
+    db = SQLAlchemy(app)
     setup_db(app)
     CORS(app)
 
@@ -318,6 +319,7 @@ def create_app(test_config=None):
 
 
 app = create_app()
+
 app.app_context().push()
 
 if __name__ == '__main__':
