@@ -6,8 +6,11 @@ from flask_sqlalchemy import SQLAlchemy
 
 
 #DATABASE_PATH = os.environ['DATABASE_URL']
-DATABASE_PATH = 'postgresql://ulxxdhwkddjwqy:85e70942145391f2ffdb063db6bcc4e425659cdef7682654893e88d2a2c945c2@ec2-18-209-78-11.compute-1.amazonaws.com:5432/d3u8jvplibk40e'
+#DATABASE_PATH = 'postgresql://ulxxdhwkddjwqy:85e70942145391f2ffdb063db6bcc4e425659cdef7682654893e88d2a2c945c2@ec2-18-209-78-11.compute-1.amazonaws.com:5432/d3u8jvplibk40e'
 
+DATABASE_PATH = os.getenv("DATABASE_URL")
+if DATABASE_PATH.startswith("postgres://"):
+    DATABASE_PATH = DATABASE_PATH.replace("postgres://", "postgresql://", 1)
 
 db = SQLAlchemy()
 
