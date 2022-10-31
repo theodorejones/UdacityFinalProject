@@ -26,12 +26,10 @@ def setup_db(app, database_path=DATABASE_PATH):
 
 
 '''
-Actors Table & Model
+Renters Table & Model
 '''
-
-#Renter
-class Actors(db.Model):
-    __tablename__ = 'actors'
+class Renters(db.Model):
+    __tablename__ = 'renters'
 
     id = Column(Integer, primary_key=True)
     name = Column(String)
@@ -64,12 +62,10 @@ class Actors(db.Model):
 
 
 '''
-Movies Table & Model
+Rentals Table & Model
 '''
-
-#Rental
-class Movies(db.Model):
-    __tablename__ = 'movies'
+class Rentals(db.Model):
+    __tablename__ = 'rentals'
 
     id = Column(Integer, primary_key=True)
     title = Column(String)
