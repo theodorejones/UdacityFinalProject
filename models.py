@@ -3,7 +3,7 @@ import json
 from sqlalchemy import Column, Integer, String, create_engine, Date
 from flask_sqlalchemy import SQLAlchemy
 
-DATABASE_PATH = os.getenv("DATABASE_URL")
+DATABASE_PATH = str(os.getenv("DATABASE_URL"))
 if DATABASE_PATH.startswith("postgres://"):
     DATABASE_PATH = DATABASE_PATH.replace("postgres://", "postgresql://", 1)
 
