@@ -62,6 +62,8 @@ class Renters(db.Model):
             'gender': self.gender,
             'age': self.age
             }
+    def __repr__(self):
+        return f'<Renters {self.id} {self.name}>'
 
 
 '''
@@ -95,3 +97,5 @@ class Rentals(db.Model):
             'address' : self.address,
             'rent': self.rent
             }
+    def __repr__(self):
+        return f'<Rentals {self.id} {self.name}>'
