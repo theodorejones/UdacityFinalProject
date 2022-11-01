@@ -3,9 +3,8 @@ import json
 from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-from models import setup_db, Actors, Movies
+from models import setup_db, Renters, Rentals
 from auth import AuthError, requires_auth
-
 
 RECS_PER_PAGE = 12
 
@@ -60,191 +59,183 @@ def create_app(test_config=None):
             'SampleTest': 'Hello World'
         })
 
-    @app.route('/actors', methods=['GET'])
-    #renter
-    @requires_auth(permission='get:actors')
-    def get_actors(payload):
+    @app.route('/Renters', methods=['GET'])
+    @requires_auth(permission='get:Renters')
+    def get_Renters(payload):
         try:
-            selections = Actors.query.order_by(Actors.id).all()
-            paged_actors = paginate_questions(request, selections)
-            total_actors = len(selections)
+            selections = Renters.query.order_by(Renters.id).all()
+            paged_Renters = paginate_questions(request, selections)
+            total_Renters = len(selections)
             return jsonify({
                 'success': True,
-                'actors': paged_actors,
-                'total-actors': total_actors
+                'Renters': paged_Renters,
+                'total-Renters': total_Renters
             })
         except Exception:
             abort(422)
 
-    @app.route('/actors', methods=['POST'])
-    #renter
-    @requires_auth(permission='post:actors')
-    def post_actors(payload):
-        add_actor = request.get_json()
-        actor_name = add_actor.get('name')
-        actor_gender = add_actor.get('gender')
-        actor_age = add_actor.get('age')
+    @app.route('/Renters', methods=['POST'])
+    @requires_auth(permission='post:Renters')
+    def post_Renters(payload):
+        add_Renter = request.get_json()
+        Renter_name = add_Renter.get('name')
+        Renter_gender = add_Renter.get('gender')
+        Renter_age = add_Renter.get('age')
 
-        if actor_name is None:
+        if Renter_name is None:
             abort(422)
 
-        if actor_gender is None:
+        if Renter_gender is None:
             abort(422)
 
-        if actor_age is None:
+        if Renter_age is None:
             abort(422)
 
         try:
-            new_actor = Actors(name=actor_name,
-                               gender=actor_gender,
-                               age=actor_age)
-            new_actor.insert()
+            new_Renter = Renters(name=Renter_name,
+                               gender=Renter_gender,
+                               age=Renter_age)
+            new_Renter.insert()
 
             return jsonify({
                 "success": True,
-                "actor-added": new_actor.id
+                "Renter-added": new_Renter.id
             })
 
         except Exception:
             abort(422)
 
-    @app.route('/actors/<int:id>', methods=['PATCH'])
-    #renter
-    @requires_auth(permission='patch:actors')
-    def patch_actors(payload, id):
-        actor = Actors.query.filter(Actors.id == id).first()
-        if not actor:
+    @app.route('/Renters/<int:id>', methods=['PATCH'])
+    @requires_auth(permission='patch:Renters')
+    def patch_Renters(payload, id):
+        Renter = Renters.query.filter(Renters.id == id).first()
+        if not Renter:
             abort(404)
 
-        update_actor_req = request.get_json()
+        update_Renter_req = request.get_json()
 
-        if update_actor_req is None:
+        if update_Renter_req is None:
             abort(422)
 
         try:
-            if 'name' in update_actor_req:
-                actor.name = update_actor_req['name']
+            if 'name' in update_Renter_req:
+                Renter.name = update_Renter_req['name']
 
-            if 'gender' in update_actor_req:
-                actor.gender = update_actor_req['gender']
+            if 'gender' in update_Renter_req:
+                Renter.gender = update_Renter_req['gender']
 
-            if 'age' in update_actor_req:
-                actor.age = update_actor_req['age']
+            if 'age' in update_Renter_req:
+                Renter.age = update_Renter_req['age']
 
-            actor.update()
+            Renter.update()
 
             return jsonify({
                 "success": True,
-                "actor-updated": actor.id
+                "Renter-updated": Renter.id
             })
 
         except Exception:
             abort(422)
 
-    @app.route('/actors/<int:id>', methods=['DELETE'])
-    #renter
-    @requires_auth(permission='delete:actors')
-    def delete_actors(payload, id):
-        actor = Actors.query.filter(Actors.id == id).first()
-        if not actor:
+    @app.route('/Renters/<int:id>', methods=['DELETE'])
+    @requires_auth(permission='delete:Renters')
+    def delete_Renters(payload, id):
+        Renter = Renters.query.filter(Renters.id == id).first()
+        if not Renter:
             abort(404)
         try:
-            actor.delete()
+            Renter.delete()
             return jsonify({
                 "success": True,
-                "actor-deleted": actor.id
+                "Renter-deleted": Renter.id
             })
 
         except Exception:
             abort(422)
 
-    @app.route('/movies', methods=['GET'])
-    #rental
-    @requires_auth(permission='get:movies')
-    def get_movies(payload):
+    @app.route('/Rentals', methods=['GET'])
+    @requires_auth(permission='get:Rentals')
+    def get_Rentals(payload):
         try:
-            selections = Movies.query.order_by(Movies.id).all()
-            paged_movies = paginate_questions(request, selections)
-            total_movies = len(selections)
+            selections = Rentals.query.order_by(Rentals.id).all()
+            paged_Rentals = paginate_questions(request, selections)
+            total_Rentals = len(selections)
             return jsonify({
                 'success': True,
-                'movies': paged_movies,
-                'total-movies': total_movies
+                'Rentals': paged_Rentals,
+                'total-Rentals': total_Rentals
             })
         except Exception:
             abort(422)
 
-    @app.route('/movies', methods=['POST'])
-    #rental
-    @requires_auth(permission='post:movies')
-    def post_movies(payload):
-        add_movie = request.get_json()
-        movie_title = add_movie.get('title')
-        movie_rls_date = add_movie.get('release_date')
+    @app.route('/Rentals', methods=['POST'])
+    @requires_auth(permission='post:Rentals')
+    def post_Rentals(payload):
+        add_Rental = request.get_json()
+        Rental_address = add_Rental.get('address')
+        Rental_rent = add_Rental.get('rent')
 
-        if movie_title is None:
+        if Rental_address is None:
             abort(422)
 
-        if movie_rls_date is None:
+        if Rental_rls_date is None:
             abort(422)
 
         try:
-            new_movie = Movies(title=movie_title,
-                               release_date=movie_rls_date)
-            new_movie.insert()
+            new_Rental = Rentals(address=Rental_address,
+                               rent=Rental_rent)
+            new_Rental.insert()
 
             return jsonify({
                 "success": True,
-                "movie-added": new_movie.id
+                "Rental-added": new_Rental.id
             })
 
         except Exception:
             abort(422)
 
-    @app.route('/movies/<int:id>', methods=['PATCH'])
-    #rental
-    @requires_auth(permission='patch:movies')
-    def patch_movies(payload, id):
-        movie = Movies.query.filter(Movies.id == id).first()
+    @app.route('/Rentals/<int:id>', methods=['PATCH'])
+    @requires_auth(permission='patch:Rentals')
+    def patch_Rentals(payload, id):
+        Rental = Rentals.query.filter(Rentals.id == id).first()
 
-        if not movie:
+        if not Rental:
             abort(404)
 
-        update_movie_req = request.get_json()
+        update_Rental_req = request.get_json()
 
-        if update_movie_req is None:
+        if update_Rental_req is None:
             abort(422)
 
         try:
-            if 'title' in update_movie_req:
-                movie.title = update_movie_req['title']
+            if 'address' in update_Rental_req:
+                Rental.address = update_Rental_req['address']
 
-            if 'release_date' in update_movie_req:
-                movie.release_date = update_movie_req['release_date']
+            if 'rent' in update_Rental_req:
+                Rental.rent = update_Rental_req['rent']
 
-            movie.update()
+            Rental.update()
 
             return jsonify({
                 "success": True,
-                "movie-updated": movie.id
+                "Rental-updated": Rental.id
             })
 
         except Exception:
             abort(422)
 
-    @app.route('/movies/<int:id>', methods=['DELETE'])
-    #rental
-    @requires_auth(permission='delete:movies')
-    def delete_movies(payload, id):
-        movie = Movies.query.filter(Movies.id == id).first()
+    @app.route('/Rentals/<int:id>', methods=['DELETE'])
+    @requires_auth(permission='delete:Rentals')
+    def delete_Rentals(payload, id):
+        Rental = Rentals.query.filter(Rentals.id == id).first()
 
-        if not movie:
+        if not Rental:
             abort(404)
         try:
-            movie.delete()
+            Rental.delete()
             return jsonify({
                 "success": True,
-                "movie-deleted": movie.id
+                "Rental-deleted": Rental.id
             })
 
         except Exception:
@@ -322,5 +313,4 @@ app = create_app()
 app.app_context().push()
 
 if __name__ == '__main__':
-    #    app.run(host='0.0.0.0', port=8080, debug=True)
     app.run(host='0.0.0.0', port=8080, debug=True)
