@@ -2,7 +2,7 @@
 
 This project is the final project of the Udacity Full Stack Developer Nano Degree Program. The goal of this project is to deploy a Flask application with Heroku/PostgreSQL and enable Role Based Authentication and roles-based access control (RBAC) with Auth0 (third-party authentication systems).
 
-I have impelemented a Roommate Finder, an API that collects information on tenants and potential roommates to match them up to rentable properties. Tenants and Landlords may put properties up for rent, and Roommates may contact either of the above through the website to set up lodging.
+I have implemented a Roommate Finder, an API that collects information on tenants and potential roommates to match them up to rentable properties. Tenants and Landlords may put properties up for rent, and Roommates may contact either of the above through the website to set up lodging.
 
 ## Getting Started
 
@@ -57,10 +57,10 @@ You can find the models in `models.py` file. Local Postgres **DATABASE** details
 ## Endpoints:
 
 ```python
-GET /actors &  /movies
-DELETE /actors/<int:id> & /movies/<int:id>
-POST /actors & /movies
-PATCH /actors/<int:id> & /movies/<int:id>
+GET /renters &  /rentals
+DELETE /renters/<int:id> & /rentals/<int:id>
+POST /renters & /rentals
+PATCH /renters/<int:id> & /rentals/<int:id>
 ```
 
 All below Endpoints have been created, please refer `app.py` file.
@@ -72,30 +72,26 @@ Json Web Tokens: You can find **JWTs** for each role in the `setup.sh` file to r
 
 **Roles**: All 3 roles have been defined in Auth0 and following permissions as shown for each role below are also defined in Auth0.
 
-- **Landlord** \* get:actors and get:movies
-- **Tenant**
-  _ All permissions a Landlord has and
-  _ post:actors and delete:actors \* patch:actors and patch:movies
-- **Roommate**
-  _ All permissions a Tenant has and
-  _ post:movies and delete:movies
+- **Landlord** \* All permissions provisioned by app.py
+- **Tenant** \* delete:Rentals, get:Rentals, get:Renters, post:Rentals
+- **Roommate** \* get:Rentals, delete, get, patch, and post:Renters
 
 ## Deployment Details:
 
-- App is deployed to [Heroku](https://harsh-casting-agency.herokuapp.com/ "Heroku").
+- App is deployed to [Heroku](https://theodorejones.herokuapp.com/ "Heroku").
 - Heroku Postgres **DATABASE** details are available in `setup.sh` file for reference.
 
 Use the above stated endpoints and append to this link above to execute the app either thru CURL or Postman.
 For example:
 
 ```bash
-$ curl -X GET https://harsh-casting-agency.herokuapp.com//actors?page=1
-$ curl -X POST https://harsh-casting-agency.herokuapp.com//actors
-$ curl -X PATCH https://harsh-casting-agency.herokuapp.com//actors/1
-$ curl -X DELETE https://harsh-casting-agency.herokuapp.com//actors/1
+$ curl -X GET https://theodorejones.herokuapp.com//renters?page=1
+$ curl -X POST https://theodorejones.herokuapp.com//renters
+$ curl -X PATCH https://theodorejones.herokuapp.com//renters/1
+$ curl -X DELETE https://theodorejones.herokuapp.com//renters/1
 ```
 
-Similarly, you can build these for /movies endpoints too.
+Similarly, you can build these for /rentals endpoints too.
 
 ## Testing:
 
