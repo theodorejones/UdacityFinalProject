@@ -6,7 +6,7 @@ So, I decided to implement The Casting Agency model a company that is responsibl
 
 ## Getting Started
 
-https://still-butterfly-7094.us.auth0.com/authorize?audience=udacityfinal&response_type=token&client_id=MAber3rpaDvIGkAtTP8pQVd5ttmR0xOs&redirect_uri=http://localhost:8080
+Auth0 Login URL: https://still-butterfly-7094.us.auth0.com/authorize?audience=udacityfinal&response_type=token&client_id=MAber3rpaDvIGkAtTP8pQVd5ttmR0xOs&redirect_uri=http://localhost:8080
 
 ### Installing Dependencies
 
@@ -49,8 +49,8 @@ Setting the `FLASK_APP` variable to `app.py` directs flask to use the this file 
 
 ## Models:
 
-- **Movies** model defined with attributes title and release date
-- **Actors** model defined with attributes name, age and gender
+- **Movies** model defined with attributes Address and Rent
+- **Actors** model defined with attributes Name, Age and Gender
 
 You can find the models in `models.py` file. Local Postgres **DATABASE** details are available in `setup.sh` file for reference.
 
