@@ -98,9 +98,9 @@ Similarly, you can build these for /rentals endpoints too.
 We can run our entire test case by running the following command at command line
 
 ```python
-$ dropdb castagency
-$ createdb castagency
-$ psql castagency < db.psql
+$ dropdb findroom
+$ createdb findroom
+$ psql findroom < db.psql
 $ python test_app.py
 ```
 
