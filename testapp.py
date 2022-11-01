@@ -3,7 +3,7 @@ import unittest
 import json
 from flask_sqlalchemy import SQLAlchemy
 from app import create_app
-from models import setup_db, Actors, Movies
+from models import setup_db, Renters, Rentals
 
 # TEST CASE CLASS
 
@@ -32,63 +32,63 @@ class RoommateFinderTestCase(unittest.TestCase):
 
 # Test data set-up for all tests down under
 
-        self.post_actor = {
+        self.post_Renter = {
             'name': "Michael",
             'age': 45,
             'gender': 'MALE'
         }
 
-        self.post_actor1 = {
+        self.post_Renter1 = {
             'name': "George",
             'age': 28,
             'gender': 'MALE'
         }
 
-        self.post_actor2 = {
+        self.post_Renter2 = {
             'name': "Markus",
             'age': 39,
             'gender': 'MALE'
         }
 
-        self.post_actor_name_missing = {
+        self.post_Renter_name_missing = {
             'age': 34,
             'gender': "MALE"
         }
 
-        self.post_actor_gender_missing = {
+        self.post_Renter_gender_missing = {
             'age': 34,
             'name': "John"
         }
 
-        self.patch_actor_on_age = {
+        self.patch_Renter_on_age = {
             'age': 55
         }
 
-        self.post_movie = {
-            'title': "SAMPLE MOVIE",
-            'release_date': "2090-10-10"
+        self.post_Rental = {
+            'address': "SAMPLE Rental",
+            'rent': "200"
         }
 
-        self.post_movie1 = {
-            'title': "MAHABHARATA",
-            'release_date': "2030-10-10"
+        self.post_Rental1 = {
+            'address': "MAHABHARATA",
+            'rent': "300"
         }
 
-        self.post_movie2 = {
-            'title': "MAHABHARATA - 2",
-            'release_date': "2032-10-10"
+        self.post_Rental2 = {
+            'address': "MAHABHARATA - 2",
+            'rent': "2000"
         }
 
-        self.post_movie_title_missing = {
-            'release_date': "2030-10-10"
+        self.post_Rental_address_missing = {
+            'rent': "2030"
         }
 
-        self.post_movie_reldate_missing = {
-            'title': "RAMAYANA"
+        self.post_Rental_rent_missing = {
+            'address': "RAMAYANA"
         }
 
-        self.patch_movie_on_reldate = {
-            'release_date': "2035-10-10"
+        self.patch_Rental_on_rent = {
+            'rent': "3000"
         }
 
         with self.app.app_context():
@@ -100,71 +100,71 @@ class RoommateFinderTestCase(unittest.TestCase):
         pass
 
 
-# Test cases for the Endpoints related to /actors
+# Test cases for the Endpoints related to /Renters
 # ------------------------------------------------
 # GET Positive case - Landlord Role
 
 
-    def test_get_actors1(self):
-        res = self.client().get('/actors?page=1',
+    def test_get_Renters1(self):
+        res = self.client().get('/Renters?page=1',
                                 headers=self.landlord_auth_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'])
-        self.assertTrue(len(data['actors']) > 0)
+        self.assertTrue(len(data['Renters']) > 0)
 
 # GET Positive case - Tenant Role
-    def test_get_actors2(self):
-        res = self.client().get('/actors?page=1',
+    def test_get_Renters2(self):
+        res = self.client().get('/Renters?page=1',
                                 headers=self.tenant_auth_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'])
-        self.assertTrue(len(data['actors']) > 0)
+        self.assertTrue(len(data['Renters']) > 0)
 
 # GET Positive case - Roommate Role
-    def test_get_actors3(self):
-        res = self.client().get('/actors?page=1',
+    def test_get_Renters3(self):
+        res = self.client().get('/Renters?page=1',
                                 headers=self.roommate_auth_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'])
-        self.assertTrue(len(data['actors']) > 0)
+        self.assertTrue(len(data['Renters']) > 0)
 
 # POST Positive case - Tenant Role
-    def test_post_new_actor1(self):
-        res = self.client().post('/actors',
-                                 json=self.post_actor1,
+    def test_post_new_Renter1(self):
+        res = self.client().post('/Renters',
+                                 json=self.post_Renter1,
                                  headers=self.tenant_auth_header)
         data = json.loads(res.data)
 
-        actor = Actors.query.filter_by(id=data['actor-added']).one_or_none()
+        Renter = Renters.query.filter_by(id=data['Renter-added']).one_or_none()
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'])
-        self.assertIsNotNone(actor)
+        self.assertIsNotNone(Renter)
 
 # POST Positive case - Roommate Role
-    def test_post_new_actor2(self):
-        res = self.client().post('/actors',
-                                 json=self.post_actor2,
+    def test_post_new_Renter2(self):
+        res = self.client().post('/Renters',
+                                 json=self.post_Renter2,
                                  headers=self.roommate_auth_header)
         data = json.loads(res.data)
 
-        actor = Actors.query.filter_by(id=data['actor-added']).one_or_none()
+        Renter = Renters.query.filter_by(id=data['Renter-added']).one_or_none()
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'])
-        self.assertIsNotNone(actor)
+        self.assertIsNotNone(Renter)
 
-# POST Negative Case - Add actor with missing name
+# POST Negative Case - Add Renter with missing name
 # - Tenant Role
-    def test_post_new_actor_name_missing(self):
-        res = self.client().post('/actors',
-                                 json=self.post_actor_name_missing,
+    def test_post_new_Renter_name_missing(self):
+        res = self.client().post('/Renters',
+                                 json=self.post_Renter_name_missing,
                                  headers=self.tenant_auth_header)
         data = json.loads(res.data)
 
@@ -172,10 +172,10 @@ class RoommateFinderTestCase(unittest.TestCase):
         self.assertFalse(data['success'])
         self.assertEqual(data['message'], 'unprocessable')
 
-# POST Negative Case - Add actor with missing gender - Tenant Role
-    def test_post_new_actor_gender_missing(self):
-        res = self.client().post('/actors',
-                                 json=self.post_actor_gender_missing,
+# POST Negative Case - Add Renter with missing gender - Tenant Role
+    def test_post_new_Renter_gender_missing(self):
+        res = self.client().post('/Renters',
+                                 json=self.post_Renter_gender_missing,
                                  headers=self.tenant_auth_header)
         data = json.loads(res.data)
 
@@ -183,25 +183,25 @@ class RoommateFinderTestCase(unittest.TestCase):
         self.assertFalse(data['success'])
         self.assertEqual(data['message'], 'unprocessable')
 
-# DELETE Positive Case - Deleting an existing actor - Tenant Role
-    def test_delete_actor(self):
-        res = self.client().post('/actors', json=self.post_actor,
+# DELETE Positive Case - Deleting an existing Renter - Tenant Role
+    def test_delete_Renter(self):
+        res = self.client().post('/Renters', json=self.post_Renter,
                                  headers=self.tenant_auth_header)
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 200)
-        actor_id = data['actor-added']
+        Renter_id = data['Renter-added']
 
-        res = self.client().delete('/actors/{}'.format(actor_id),
+        res = self.client().delete('/Renters/{}'.format(Renter_id),
                                    headers=self.tenant_auth_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'])
-        self.assertEqual(data['actor-deleted'], actor_id)
+        self.assertEqual(data['Renter-deleted'], Renter_id)
 
-# DELETE Negative Case actor not found - Tenant Role
-    def test_delete_actor_not_found(self):
-        res = self.client().delete('/actors/999',
+# DELETE Negative Case Renter not found - Tenant Role
+    def test_delete_Renter_not_found(self):
+        res = self.client().delete('/Renters/999',
                                    headers=self.tenant_auth_header)
         data = json.loads(res.data)
 
@@ -210,22 +210,22 @@ class RoommateFinderTestCase(unittest.TestCase):
         self.assertEqual(data['message'], 'Not found')
 
 # PATCH Positive case - Update age of an existing
-# actor - Tenant Role
-    def test_patch_actor(self):
-        res = self.client().patch('/actors/2',
-                                  json=self.patch_actor_on_age,
+# Renter - Tenant Role
+    def test_patch_Renter(self):
+        res = self.client().patch('/Renters/2',
+                                  json=self.patch_Renter_on_age,
                                   headers=self.tenant_auth_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'])
-        self.assertEqual(data['actor-updated'], 2)
+        self.assertEqual(data['Renter-updated'], 2)
 
-# PATCH Negative case - Update age for non-existent actor
+# PATCH Negative case - Update age for non-existent Renter
 # - Tenant Role
-    def test_patch_actor_not_found(self):
-        res = self.client().patch('/actors/99',
-                                  json=self.patch_actor_on_age,
+    def test_patch_Renter_not_found(self):
+        res = self.client().patch('/Renters/99',
+                                  json=self.patch_Renter_on_age,
                                   headers=self.tenant_auth_header)
         data = json.loads(res.data)
 
@@ -234,9 +234,9 @@ class RoommateFinderTestCase(unittest.TestCase):
         self.assertEqual(data['message'], 'Not found')
 
 # RBAC - Test Cases:
-# RBAC GET actors w/o Authorization header
-    def test_get_actors_no_auth(self):
-        res = self.client().get('/actors?page=1')
+# RBAC GET Renters w/o Authorization header
+    def test_get_Renters_no_auth(self):
+        res = self.client().get('/Renters?page=1')
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 401)
@@ -244,10 +244,10 @@ class RoommateFinderTestCase(unittest.TestCase):
         self.assertEqual(data['message'],
                          'Authorization header is expected.')
 
-# RBAC POST actors with wrong Authorization header - Landlord Role
-    def test_post_actor_wrong_auth(self):
-        res = self.client().post('/actors',
-                                 json=self.post_actor1,
+# RBAC POST Renters with wrong Authorization header - Landlord Role
+    def test_post_Renter_wrong_auth(self):
+        res = self.client().post('/Renters',
+                                 json=self.post_Renter1,
                                  headers=self.landlord_auth_header)
         data = json.loads(res.data)
 
@@ -255,10 +255,10 @@ class RoommateFinderTestCase(unittest.TestCase):
         self.assertFalse(data['success'])
         self.assertEqual(data['message'], 'Permission not found.')
 
-# RBAC DELETE Negative Case - Delete an existing actor
+# RBAC DELETE Negative Case - Delete an existing Renter
 # without appropriate permission
-    def test_delete_actor_wrong_auth(self):
-        res = self.client().delete('/actors/10',
+    def test_delete_Renter_wrong_auth(self):
+        res = self.client().delete('/Renters/10',
                                    headers=self.landlord_auth_header)
         data = json.loads(res.data)
 
@@ -267,57 +267,57 @@ class RoommateFinderTestCase(unittest.TestCase):
         self.assertEqual(data['message'], 'Permission not found.')
 
 
-# Test cases for the Endpoints related to /movies
+# Test cases for the Endpoints related to /Rentals
 # ------------------------------------------------
 # GET Positive case - Landlord Role
 
 
-    def test_get_movies1(self):
-        res = self.client().get('/movies?page=1',
+    def test_get_Rentals1(self):
+        res = self.client().get('/Rentals?page=1',
                                 headers=self.landlord_auth_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'])
-        self.assertTrue(len(data['movies']) > 0)
+        self.assertTrue(len(data['Rentals']) > 0)
 
 # GET Positive case - Tenant Role
-    def test_get_movies2(self):
-        res = self.client().get('/movies?page=1',
+    def test_get_Rentals2(self):
+        res = self.client().get('/Rentals?page=1',
                                 headers=self.tenant_auth_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'])
-        self.assertTrue(len(data['movies']) > 0)
+        self.assertTrue(len(data['Rentals']) > 0)
 
 # GET Positive case - Roommate Role
-    def test_get_movies3(self):
-        res = self.client().get('/movies?page=1',
+    def test_get_Rentals3(self):
+        res = self.client().get('/Rentals?page=1',
                                 headers=self.roommate_auth_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'])
-        self.assertTrue(len(data['movies']) > 0)
+        self.assertTrue(len(data['Rentals']) > 0)
 
 # POST Positive case - Roommate Role
-    def test_post_new_movie2(self):
-        res = self.client().post('/movies', json=self.post_movie2,
+    def test_post_new_Rental2(self):
+        res = self.client().post('/Rentals', json=self.post_Rental2,
                                  headers=self.roommate_auth_header)
         data = json.loads(res.data)
 
-        movie = Movies.query.filter_by(id=data['movie-added']).one_or_none()
+        Rental = Rentals.query.filter_by(id=data['Rental-added']).one_or_none()
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'])
-        self.assertIsNotNone(movie)
+        self.assertIsNotNone(Rental)
 
-# POST Negative Case - Add movie with missing title
+# POST Negative Case - Add Rental with missing address
 # - Roommate Role
-    def test_post_new_movie_title_missing(self):
-        res = self.client().post('/movies',
-                                 json=self.post_movie_title_missing,
+    def test_post_new_Rental_address_missing(self):
+        res = self.client().post('/Rentals',
+                                 json=self.post_Rental_address_missing,
                                  headers=self.roommate_auth_header)
         data = json.loads(res.data)
 
@@ -325,11 +325,11 @@ class RoommateFinderTestCase(unittest.TestCase):
         self.assertFalse(data['success'])
         self.assertEqual(data['message'], 'unprocessable')
 
-# POST Negative Case - Add movie with missing release date
+# POST Negative Case - Add Rental with missing release date
 # - Roommate Role
-    def test_post_new_movie_reldate_missing(self):
-        res = self.client().post('/movies',
-                                 json=self.post_movie_reldate_missing,
+    def test_post_new_Rental_rent_missing(self):
+        res = self.client().post('/Rentals',
+                                 json=self.post_Rental_rent_missing,
                                  headers=self.roommate_auth_header)
         data = json.loads(res.data)
 
@@ -337,26 +337,26 @@ class RoommateFinderTestCase(unittest.TestCase):
         self.assertFalse(data['success'])
         self.assertEqual(data['message'], 'unprocessable')
 
-# DELETE Positive Case - Deleting an existing movie - Roommate Role
-    def test_delete_movie(self):
-        res = self.client().post('/movies',
-                                 json=self.post_movie,
+# DELETE Positive Case - Deleting an existing Rental - Roommate Role
+    def test_delete_Rental(self):
+        res = self.client().post('/Rentals',
+                                 json=self.post_Rental,
                                  headers=self.roommate_auth_header)
         data = json.loads(res.data)
 
-        movie_id = data['movie-added']
+        Rental_id = data['Rental-added']
 
-        res = self.client().delete('/movies/{}'.format(movie_id),
+        res = self.client().delete('/Rentals/{}'.format(Rental_id),
                                    headers=self.roommate_auth_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'])
-        self.assertEqual(data['movie-deleted'], movie_id)
+        self.assertEqual(data['Rental-deleted'], Rental_id)
 
-# DELETE Negative Case movie not found - Roommate Role
-    def test_delete_movie_not_found(self):
-        res = self.client().delete('/movies/777',
+# DELETE Negative Case Rental not found - Roommate Role
+    def test_delete_Rental_not_found(self):
+        res = self.client().delete('/Rentals/777',
                                    headers=self.roommate_auth_header)
         data = json.loads(res.data)
 
@@ -365,22 +365,22 @@ class RoommateFinderTestCase(unittest.TestCase):
         self.assertEqual(data['message'], 'Not found')
 
 # PATCH Positive case - Update Release Date of
-# an existing movie - Tenant Role
-    def test_patch_movie(self):
-        res = self.client().patch('/movies/2',
-                                  json=self.patch_movie_on_reldate,
+# an existing Rental - Tenant Role
+    def test_patch_Rental(self):
+        res = self.client().patch('/Rentals/2',
+                                  json=self.patch_Rental_on_rent,
                                   headers=self.tenant_auth_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'])
-        self.assertEqual(data['movie-updated'], 2)
+        self.assertEqual(data['Rental-updated'], 2)
 
 # PATCH Negative case - Update Release Date for
-# non-existent movie - Tenant Role
-    def test_patch_movie_not_found(self):
-        res = self.client().patch('/movies/99',
-                                  json=self.patch_movie_on_reldate,
+# non-existent Rental - Tenant Role
+    def test_patch_Rental_not_found(self):
+        res = self.client().patch('/Rentals/99',
+                                  json=self.patch_Rental_on_rent,
                                   headers=self.tenant_auth_header)
         data = json.loads(res.data)
 
@@ -389,9 +389,9 @@ class RoommateFinderTestCase(unittest.TestCase):
         self.assertEqual(data['message'], 'Not found')
 
 # RBAC - Test Cases:
-# RBAC GET movies w/o Authorization header
-    def test_get_movies_no_auth(self):
-        res = self.client().get('/movies?page=1')
+# RBAC GET Rentals w/o Authorization header
+    def test_get_Rentals_no_auth(self):
+        res = self.client().get('/Rentals?page=1')
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 401)
@@ -399,9 +399,9 @@ class RoommateFinderTestCase(unittest.TestCase):
         self.assertEqual(data['message'],
                          'authorization_header_missing')
 
-# RBAC POST movies with wrong Authorization header - Tenant Role
-    def test_post_movie_wrong_auth(self):
-        res = self.client().post('/movies', json=self.post_movie1,
+# RBAC POST Rentals with wrong Authorization header - Tenant Role
+    def test_post_Rental_wrong_auth(self):
+        res = self.client().post('/Rentals', json=self.post_Rental1,
                                  headers=self.tenant_auth_header)
         data = json.loads(res.data)
 
@@ -409,10 +409,10 @@ class RoommateFinderTestCase(unittest.TestCase):
         self.assertFalse(data['success'])
         self.assertEqual(data['message'], 'Permission not found')
 
-# RBAC DELETE Negative Case - Delete an existing movie
+# RBAC DELETE Negative Case - Delete an existing Rental
 # without appropriate permission
-    def test_delete_movie_wrong_auth(self):
-        res = self.client().delete('/movies/8',
+    def test_delete_Rental_wrong_auth(self):
+        res = self.client().delete('/Rentals/8',
                                    headers=self.tenant_auth_header)
         data = json.loads(res.data)
 
