@@ -178,7 +178,7 @@ def create_app(test_config=None):
         if Rental_address is None:
             abort(422)
 
-        if Rental_rls_date is None:
+        if Rental_rent is None:
             abort(422)
 
         try:
