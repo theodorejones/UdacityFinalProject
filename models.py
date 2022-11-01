@@ -29,12 +29,10 @@ def setup_db(app, database_path=DATABASE_PATH):
 
 
 '''
-Actors Table & Model
+Renters Table & Model
 '''
-
-#Renter
-class Actors(db.Model):
-    __tablename__ = 'actors'
+class Renters(db.Model):
+    __tablename__ = 'Renters'
 
     id = Column(Integer, primary_key=True)
     name = Column(String)
@@ -67,20 +65,18 @@ class Actors(db.Model):
 
 
 '''
-Movies Table & Model
+Rentals Table & Model
 '''
-
-#Rental
-class Movies(db.Model):
-    __tablename__ = 'movies'
+class Rentals(db.Model):
+    __tablename__ = 'Rentals'
 
     id = Column(Integer, primary_key=True)
     title = Column(String)
     release_date = Column(Date)
 
-    def __init__(self, title, release_date):
-        self.title = title
-        self.release_date = release_date
+    def __init__(self, address, rent):
+        self.title = address
+        self.release_date = rent
 
     def insert(self):
         db.session.add(self)
@@ -96,6 +92,6 @@ class Movies(db.Model):
     def format(self):
         return {
             'id': self.id,
-            'title' : self.title,
-            'release_date': self.release_date
+            'address' : self.address,
+            'rent': self.rent
             }
