@@ -71,11 +71,11 @@ class Rentals(db.Model):
     __tablename__ = 'Rentals'
 
     id = Column(Integer, primary_key=True)
-    title = Column(String)
+    address = Column(String)
     release_date = Column(Date)
 
     def __init__(self, address, rent):
-        self.title = address
+        self.address = address
         self.release_date = rent
 
     def insert(self):
