@@ -2,7 +2,7 @@
 
 This project is the final project of the Udacity Full Stack Developer Nano Degree Program. The goal of this project is to deploy a Flask application with Heroku/PostgreSQL and enable Role Based Authentication and roles-based access control (RBAC) with Auth0 (third-party authentication systems).
 
-So, I decided to implement The Casting Agency model a company that is responsible for creating movies and managing and assigning actors to those movies. You are an Executive Producer within the company and are creating a system to simplify and streamline your process.
+I have impelemented a Roommate Finder, an API that collects information on tenants and potential roommates to match them up to rentable properties. Tenants and Landlords may put properties up for rent, and Roommates may contact either of the above through the website to set up lodging.
 
 ## Getting Started
 
@@ -49,8 +49,8 @@ Setting the `FLASK_APP` variable to `app.py` directs flask to use the this file 
 
 ## Models:
 
-- **Movies** model defined with attributes Address and Rent
-- **Actors** model defined with attributes Name, Age and Gender
+- **Rentals** model defined with attributes Address and Rent
+- **Renters** model defined with attributes Name, Age and Gender
 
 You can find the models in `models.py` file. Local Postgres **DATABASE** details are available in `setup.sh` file for reference.
 
