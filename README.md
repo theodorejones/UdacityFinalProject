@@ -101,7 +101,7 @@ We can run our entire test case by running the following command at command line
 $ dropdb findroom
 $ createdb findroom
 $ psql findroom < db.psql
-$ python test_app.py
+$ python testapp.py
 ```
 
 ### Thank You!
